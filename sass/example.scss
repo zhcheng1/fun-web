@@ -1,0 +1,84 @@
+// This comment won't be included in the CSS.
+
+/* But this comment will, except in compressed mode. */
+
+// mixin simple
+@mixin reset-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.horizontal-list {
+  @include reset-list;
+}
+
+
+// mixin with params
+@mixin rtl($property, $ltr-value, $rtl-value) {
+  #{$property}: $ltr-value;
+
+  [dir=rtl] & {
+  	#{$property}: $rtl-value;
+  }
+}
+
+.wrapper {
+	@include rtl(left, 10px, 20px);
+}
+
+// mixin with args list
+@mixin order($height, $selectors...) {
+  @for $i from 0 to length($selectors) {
+  	// get the ith item from a list
+    #{nth($selectors, $i + 1)} {
+      position: absolute;
+      height: $height;
+      margin-top: $i * $height;
+    }
+  }
+}
+
+@include order(150px, "input.name", "input.address", "input.zip");
+
+
+// use @content
+@mixin hover {
+  &:not([disabled]):hover {
+    @content;
+    border-width: 3px;
+  }
+}
+
+.button {
+  border: 1px solid black;
+  @include hover {
+    border-width: 2px;
+  }
+}
+
+// 
+@mixin triangle($size, $color, $direction) {
+	height: 0;
+	width: 0;
+	content: "";
+	border-color: transparent;
+	border-style: solid;
+	border-width: $size / 2;
+
+	@if $direction == up {
+		border-bottom-color: $color;
+	} @else if $direction == right {
+		border-left-color: $color;
+	} @else if $direction == down {
+		border-top-color: $color;
+	} @else if $direction == left {
+		border-right-color: $color;
+	} @else {
+		@error "Unknown direction #{$direction}.";
+	}
+}
+
+.triangle {
+	@include triangle(10, red, up);
+}

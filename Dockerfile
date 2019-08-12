@@ -11,4 +11,4 @@ RUN npm install
 # Make port 3001 available to the world outside this container
 EXPOSE 3001
 # Run the app when the container launches
-CMD ["npm", "start"]
+CMD chmod 777 start.sh && source start.sh

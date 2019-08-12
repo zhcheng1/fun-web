@@ -1,0 +1,11 @@
+package-lock.json
+web/package-lock.json
+
+## Build generated
+web/build/
+web/dist/
+
+## NodeJs import libraries
+web/node_modules/
+node_modules/
+npm-debug.log
